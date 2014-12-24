@@ -1,12 +1,13 @@
 <?php
 
 $start = microtime(true);
+error_log('Publish request processing for ' . $_GET['gitUrl']);
 try {
     process();
 } catch (Exception $e) {
     error_log($e->getMessage());
 }
-error_log('Request processed in ' . number_format((microtime(true) - $start), 3) . 's');
+error_log('Publish request processed in ' . number_format((microtime(true) - $start), 3) . 's');
 
 
 function process()
@@ -17,7 +18,7 @@ function process()
     if (!$profiles = parse_ini_file($profilesFile, true)) {
         throw new Exception('Missing or wrong profiles at: ' . $profilesFile);
     }
-    $gitUrl = json_decode($_POST['payload'], true)['repository']['url'];
+    $gitUrl = $_GET['gitUrl'];
     if (!$profileName = findProfile($profiles, $gitUrl)) {
         throw new Exception('no profile for git url: ' . $gitUrl);
     }

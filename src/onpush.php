@@ -11,7 +11,12 @@ error_log('Request processed in ' . number_format((microtime(true) - $start), 3)
 
 function process()
 {
-    $profiles = parse_ini_file('profiles.ini', true);
+    $homedir = $_SERVER['DOCUMENT_ROOT'] . '/../';
+
+    $profilesFile = $homedir . 'profiles.ini';
+    if (!$profiles = parse_ini_file($profilesFile, true)) {
+        throw new Exception('Missing or wrong profiles at: ' . $profilesFile);
+    }
     $gitUrl = json_decode($_POST['payload'], true)['repository']['url'];
     if (!$profileName = findProfile($profiles, $gitUrl)) {
         throw new Exception('no profile for git url: ' . $gitUrl);
@@ -25,7 +30,7 @@ function process()
     if (!$awsBucket) {
         throw new Exception('no aws bucket defined for profile: ' . $profileName);
     }
-    $awsConfig = $_SERVER['DOCUMENT_ROOT'] . '/../.aws/config';
+    $awsConfig = $homedir . '.aws/config';
     if (!file_exists($awsConfig)) {
         throw new Exception('no aws config file found at: ' . $awsConfig);
     }

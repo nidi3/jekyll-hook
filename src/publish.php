@@ -3,7 +3,7 @@ require 'Profile.php';
 require 'Config.php';
 require 'util.php';
 
-run('Processing publish request for "' . $_GET['gitUrl'], function () {
+processRequest('Processing publish request for "' . $_GET['gitUrl'], function () {
     $homedir = $_SERVER['DOCUMENT_ROOT'] . '/../';
     $profile = new Profile($homedir, $_GET['gitUrl']);
     new Config($homedir, 'default');

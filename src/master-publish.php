@@ -9,12 +9,12 @@ define('CONFIG_DIR', '/usr/home/nidiag'); //to adjust
 define('WAIT_INTERVAL', 15);
 define('MAX_WAITS', 10);
 
-run('Processing master publish request for ' . $_GET['gitUrl'], function () {
+processRequest('Processing master publish request for ' . $_GET['gitUrl'], function () {
     $config = new Config(CONFIG_DIR, 'default');
     $profile = new Profile(CONFIG_DIR, $_GET['gitUrl']);
     $ec2 = new Ec2($config, $profile->awsInstanceName);
 
-    if ($_GET['start'] !== null) {
+    if (isStartParam()) {
         error_log("Starting instance '{$profile->awsInstanceName}'");
         $ec2->waitToStart();
     }
@@ -28,7 +28,7 @@ run('Processing master publish request for ' . $_GET['gitUrl'], function () {
     }
     error_log($i);
 
-    if ($_GET['stop'] !== null) {
+    if (isStopParam()) {
         error_log("Stopping instance '{$profile->awsInstanceName}'");
         $ec2->waitToStop();
     }

@@ -3,7 +3,7 @@ require 'Profile.php';
 require 'Config.php';
 require 'util.php';
 
-run('Processing publish request for ' . $_GET['gitUrl'], function () {
+run('Processing publish request for "' . $_GET['gitUrl'], function () {
     $homedir = $_SERVER['DOCUMENT_ROOT'] . '/../';
     $profile = new Profile($homedir, $_GET['gitUrl']);
     new Config($homedir, 'default');
@@ -16,7 +16,7 @@ run('Processing publish request for ' . $_GET['gitUrl'], function () {
     }
 
     execute("cd $dest; jekyll build");
-    execute("aws s3 sync $dest/_site {$profile->$awsBucket} --delete --size-only");
+    execute("aws s3 sync $dest/_site {$profile->awsBucket} --delete --size-only");
 });
 
 

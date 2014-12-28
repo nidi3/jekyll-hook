@@ -26,7 +26,6 @@ processRequest('Processing master publish request for ' . $_GET['gitUrl'], funct
         }
         sleep(WAIT_INTERVAL);
     }
-    error_log($i);
 
     if (isStopParam()) {
         error_log("Stopping instance '{$profile->awsInstanceName}'");

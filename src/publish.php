@@ -1,4 +1,11 @@
 <?php
+/**
+ * Get the contents of the git repo at $_GET['gitUrl'], run jekyll and publish it on an amazon s3.
+ * Required files (see config/.aws):
+ *   ~/.aws/config containing the aws key, secret and region as used by aws cli tools.
+ *   ~/.aws/profiles containing profiles with git url, git credentials the aws s3 bucket to deploy the pages to.
+ */
+
 require 'Profile.php';
 require 'Config.php';
 require 'util.php';

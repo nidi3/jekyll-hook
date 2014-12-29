@@ -12,19 +12,21 @@
  *   The php aws sdk (https://github.com/aws/aws-sdk-php/releases) must be copied to ../aws (see Ec2.php).
  */
 
+require 'master-config.php';
 require 'Config.php';
 require 'Profile.php';
 require 'Ec2.php';
 require 'util.php';
 
-define('CONFIG_DIR', '/usr/home/nidiag'); //to adjust
 define('WAIT_INTERVAL', 15);
 define('MAX_WAITS', 10);
 
 if (isBackgroundParam()) {
-    runAfterResponse('work');
+    invokeHttp(SELF_HOST, SELF_PATH . '/master-publish.php?' . masterPublishQuery($_GET['gitUrl'], false));
+    echo 'request sent';
 } else {
     work();
+    echo 'published';
 }
 
 function work()

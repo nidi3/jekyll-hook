@@ -3,5 +3,6 @@
  * Takes a github webhook request, transforms it and calls publish.php.
  */
 
-$gitUrl = json_decode($_POST['payload'], true)['repository']['url'];
-file_get_contents('http://localhost/publish.php?gitUrl=' . $gitUrl);
+require 'util.php';
+
+file_get_contents('http://localhost/publish.php?gitUrl=' . findGithubUrl());

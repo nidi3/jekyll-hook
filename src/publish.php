@@ -54,13 +54,16 @@ function calc_s3_configs($dir)
 
 function calc_cludes($lines, $pattern)
 {
-    $cludes = '';
-    foreach ($lines as $key => $value) {
-        if ($key !== $pattern) {
-            $cludes .= '--exclude="' . $key . '" ';
+    if ($pattern === '*' || $pattern === '/*') {
+        $excludes = '';
+        foreach ($lines as $key => $value) {
+            if ($key !== $pattern) {
+                $excludes .= '--exclude="' . $key . '" ';
+            }
         }
+        return $excludes;
     }
-    return $cludes . '--include="' . $pattern . '"';
+    return '--exclude=* --include="' . $pattern . '"';
 }
 
 function parse_flags($flags)

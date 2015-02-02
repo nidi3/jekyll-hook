@@ -36,6 +36,10 @@ function work()
         $profile = new Profile(CONFIG_DIR, $_GET['gitUrl']);
         $ec2 = new Ec2($config, $profile->awsInstanceName);
 
+        if (isRestoreParam()) {
+            $wasRunning = $ec2->state() === Ec2State::RUNNING;
+        }
+
         if (isStartParam()) {
             error_log("Starting instance '{$profile->awsInstanceName}'");
             $ec2->waitToStart();
@@ -49,7 +53,7 @@ function work()
             sleep(WAIT_INTERVAL);
         }
 
-        if (isStopParam()) {
+        if (isStopParam() || (isRestoreParam() && !$wasRunning)) {
             error_log("Stopping instance '{$profile->awsInstanceName}'");
             $ec2->waitToStop();
         }

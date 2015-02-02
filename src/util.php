@@ -12,19 +12,28 @@ function processRequest($desc, $action)
     error_log('Request processed in ' . number_format((microtime(true) - $start), 3) . 's');
 }
 
+function isParam($name){
+    return isset($_GET[$name]) && $_GET[$name] !== null;
+}
+
 function isStartParam()
 {
-    return $_GET['start'] !== null;
+    return isParam('start');
 }
 
 function isStopParam()
 {
-    return $_GET['stop'] !== null;
+    return isParam('stop');
+}
+
+function isRestoreParam()
+{
+    return isParam('restore');
 }
 
 function isBackgroundParam()
 {
-    return $_GET['background'] !== null;
+    return isParam('background');
 }
 
 function masterPublishQuery($gitUrl, $withBackground)

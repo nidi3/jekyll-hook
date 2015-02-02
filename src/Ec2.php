@@ -89,6 +89,11 @@ class Ec2
         return intval($instanceInfo['State']['Code']);
     }
 
+    function state()
+    {
+        return $this->stateOf($this->instanceInfo());
+    }
+
     function publicIp()
     {
         $info = $this->instanceInfo();

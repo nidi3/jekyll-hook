@@ -12,7 +12,8 @@ function processRequest($desc, $action)
     error_log('Request processed in ' . number_format((microtime(true) - $start), 3) . 's');
 }
 
-function isParam($name){
+function isParam($name)
+{
     return isset($_GET[$name]) && $_GET[$name] !== null;
 }
 
@@ -40,8 +41,9 @@ function masterPublishQuery($gitUrl, $withBackground)
 {
     $start = isStartParam() ? '&start' : '';
     $stop = isStopParam() ? '&stop' : '';
+    $restore = isRestoreParam() ? '&restore' : '';
     $background = (isBackgroundParam() && $withBackground) ? '&background' : '';
-    return 'gitUrl=' . $gitUrl . $start . $stop . $background;
+    return 'gitUrl=' . $gitUrl . $start . $stop . $restore . $background;
 }
 
 function invokeHttp($host, $file)

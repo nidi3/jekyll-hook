@@ -26,7 +26,9 @@ processRequest('Processing publish request for "' . $_GET['gitUrl'], function ()
 
     $dest = '/tmp/git/' . $profile->repoName();
     if (file_exists($dest)) {
-        execute("cd $dest; git pull");
+        execute("cd $dest; git fetch origin master");
+        execute("cd $dest; git reset --hard FETCH_HEAD");
+        execute("cd $dest; git clean -df");
     } else {
         execute("git clone {$profile->cloneUrl()} $dest");
     }
